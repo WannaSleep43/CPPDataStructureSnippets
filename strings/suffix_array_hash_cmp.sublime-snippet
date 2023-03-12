@@ -1,0 +1,18 @@
+<snippet>
+	<content><![CDATA[
+bool cmp(int i, int j) {
+    int l = -1, r = n;
+    while (r - l > 1) {
+        int m = (l + r) >> 1;
+        if (max(i, j) + m >= n) { r = m; continue; }
+        if (hsh.get_pref(i, i + m) == hsh.get_pref(j, j + m)) l = m;
+        else r = m;
+    }
+    return s[i + r] < s[j + r];
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>h_suff_array</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

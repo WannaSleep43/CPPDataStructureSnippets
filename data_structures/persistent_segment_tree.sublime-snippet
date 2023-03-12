@@ -1,0 +1,45 @@
+<snippet>
+	<content><![CDATA[
+struct Node {
+    ll l, r, cnt;
+    Node() {
+        l = -1, r = -1, cnt = 0;
+    }
+};
+ 
+struct segTree{
+    vector<Node> tree;
+    segTree() { tree.emplace_back(); }
+ 
+    ll update(ll v, ll l, ll r, ll ind, ll val) {
+        tree.emplace_back();
+        if (v != -1) tree[tree.size() - 1] = tree[v];
+        v = tree.size() - 1;
+        if (l == r) {
+            tree[v].cnt = val;
+            return v;
+        }
+        ll m = (l + r) / 2;
+        if (ind <= m) {
+            tree[v].l = update(tree[v].l, l, m, ind, val);
+        } else {
+            tree[v].r = update(tree[v].r, m + 1, r, ind, val);
+        }
+        ll a = (tree[v].l != -1) ? tree[tree[v].l].cnt : 0, b = (tree[v].r != -1) ? tree[tree[v].r].cnt : 0;
+        tree[v].cnt = a + b;
+        return v;
+    }
+ 
+    ll get(ll v, ll l, ll r, ll tl, ll tr) {
+        if (v == -1 || r < tl || l > tr) return 0;
+        if (l >= tl && r <= tr) return tree[v].cnt;
+        ll m = (l + r) / 2;
+        return get(tree[v].l, l, m, tl, tr) + get(tree[v].r, m + 1, r, tl, tr);
+    }
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>persistent_segtree</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

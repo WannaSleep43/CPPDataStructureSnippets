@@ -1,0 +1,13 @@
+<snippet>
+	<content><![CDATA[
+ll binpow(ll a, ll n, ll mod) {
+    if (n == 0) return 1;
+    if (n % 2 == 0) return binpow(a * a, n / 2, mod) % mod;
+    return (binpow(a, n - 1, mod) * a) % mod;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>binpow</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

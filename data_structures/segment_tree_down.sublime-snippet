@@ -1,0 +1,40 @@
+<snippet>
+	<content><![CDATA[
+struct segTree {
+    ll n; vi Tree;
+    segTree(ll k) {
+        n = k;
+        Tree.resize(2 * n, 0);  
+    }
+ 
+    void build(vi&a) {
+        ll n = 1; while (n < a.size()) n *= 2;
+        Tree.resize(2 * n, 0);
+        for (int i = n; i < n + a.size(); i++)
+            Tree[i] = a[i - n];
+        for (int i = n - 1; i >= 1; i--)
+            Tree[i] = Tree[2 * i] + Tree[2 * i + 1];
+    }
+ 
+    void update(ll pos, ll val) {
+        for (Tree[pos += n] = val; pos > 1; pos /= 2)
+            Tree[pos / 2] = Tree[pos] + Tree[pos ^ 1];
+    }
+ 
+    ll query(ll l, ll r) {
+        ll res = 0;
+        for (l += n, r += n; l < r; l /= 2, r /= 2) {
+            if (l % 2) 
+                res += Tree[l++];
+            if (r % 2)
+                res += Tree[--r];
+        }
+        return res;
+    }
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>segtree_down</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

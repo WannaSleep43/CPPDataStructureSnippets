@@ -1,0 +1,35 @@
+<snippet>
+	<content><![CDATA[
+int dfs(int v, int par) {
+    s[v] = 1;
+    for (int u : adj[v]) {
+        if (u == par || used[u]) continue;
+        s[v] += dfs(u, v);
+    }
+    return s[v];
+}
+ 
+int get_centroid (int v, int p, int n) {
+    for (int u : adj[v]) {
+        if (s[u] > n / 2 && u != p && !used[u]) return get_centroid(u, v, n);
+    }
+    return v;
+}
+ 
+ 
+void get_centroids(int v, int lev, int parr) {
+    dfs(v, -1); 
+    ll cen = get_centroid(v, -1, s[v]);
+    used[cen] = lev;
+    par[cen] = parr;
+    for (auto&u: adj[cen]) {
+        if (used[u]) continue;
+        get_centroids(u, lev + 1, cen);
+    }
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>centroids</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

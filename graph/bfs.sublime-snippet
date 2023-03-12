@@ -1,0 +1,23 @@
+<snippet>
+	<content><![CDATA[
+void bfs(ll v) {
+    vi cur, next, used(sz(adj));
+    next.push_back(0);
+    while (!next.empty()) {
+        cur = next;
+        next.clear();
+        for (auto&v: cur) {
+            used[v] = 1;
+            for (auto&u: adj[v]) {
+                if (used[u]) continue;
+                next.push_back(u);
+            }
+        }
+    }
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>bfs</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

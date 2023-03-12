@@ -1,0 +1,55 @@
+<snippet>
+	<content><![CDATA[
+vvi adj, new_adj;
+vi used, iscp, comp, tin, fup;
+ll timer = 0;
+ 
+// ПОИСК И УДАЛЕНИЕ МОСТОВ, ВЫДЕЛЕНИЕ КОМПОНЕНТ РЕБЕРНОЙ ДВУСВЯЗНОСТИ
+void dfs(ll v, ll p) {
+    used[v] = 1;
+    tin[v] = fup[v] = timer++;
+    for (auto&u : adj[v]) {
+        if (used[u]) {
+            if (u != p) fup[v] = min(fup[v], tin[u]);
+        } else {
+            dfs(u, v);
+            fup[v] = min(fup[v], fup[u]);
+            if (fup[u] <= tin[v]) new_adj[v].push_back(u), new_adj[u].push_back(v);
+        }
+    }
+}
+ 
+void dfs2(ll v, ll c) {
+    comp[v] = c;
+    for (auto&u : new_adj[v]) {
+        if (comp[u]) continue;
+        dfs2(u, c);
+    }
+}
+ 
+void solve() {
+    ll n, m; cin >> n >> m;
+    adj.assign(n, {}), used.assign(n, 0), new_adj.assign(n, {});
+    tin.assign(n, 0), fup.assign(n, 0); iscp.assign(n, 0);
+    rep(i, m) {
+        ll a, b; cin >> a >> b;
+        a--, b--;
+        adj[a].push_back(b);
+        adj[b].push_back(a);
+    }
+    rep(i, n) {
+        if (!used[i]) dfs(i, -1);
+    }
+    comp.assign(n, 0);
+    ll c = 0;
+    rep(i, n) {
+        if (!comp[i]) dfs2(i, ++c);
+    }
+    rep(i, n) cout << comp[i] << " ";
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>edge_biconnectivity_component</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

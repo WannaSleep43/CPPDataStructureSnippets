@@ -1,0 +1,58 @@
+<snippet>
+	<content><![CDATA[
+vvi adj;
+vi used, comp, topsort;
+ 
+void dfs1(ll v) {
+    used[v] = 1;
+    for (auto&u : adj[v]) {
+        if (!used[u]) dfs1(u);
+    }
+    topsort.push_back(v);
+}
+ 
+void tops(ll n) {
+    rep(u, n) {
+        if (!used[u]) dfs1(u);
+    }
+    reverse(all(topsort));
+}
+ 
+vvi revadj;
+ 
+void dfs2(ll v, ll color) {
+    comp[v] = color;
+    for (auto&u : revadj[v]) {
+        if (comp[u]) continue;
+        dfs2(u, color);
+    }
+}
+ 
+ll css(ll n) {
+    ll c = 0;
+    each(i, topsort) {
+        if (comp[i] == 0) dfs2(i, ++c);
+    }
+    return c;
+}
+ 
+void solve() {
+    ll n, m; cin >> n >> m;
+    adj.assign(n, {}); revadj.assign(n, {});
+    comp.assign(n, 0), used.assign(n, 0);
+    for (int i = 0; i < m; i++) {
+        ll a, b; cin >> a >> b;
+        a--, b--;
+        adj[a].push_back(b);
+        revadj[b].push_back(a);
+    }
+    tops(n);
+    cout << css(n) << '\n';
+    rep(i, n) cout << comp[i] << " ";
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>strongly_connected</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

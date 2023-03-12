@@ -1,0 +1,26 @@
+<snippet>
+	<content><![CDATA[
+vector<vector<pll>> adj; // to, number
+vi used, ans; // used(m)
+void find_euler(ll v) {
+    while (!adj[v].empty()) {
+        auto [to, id] = adj[v].back();
+        adj[v].pop_back(); used[id] = 1;
+        if (used[id]) continue;
+        used[id] = true;
+        find_euler(to);
+    }
+    ans.push_back(v);
+}
+// Для орграфа перевернуть
+// Цикл существует:
+// 1) Неориентированный граф - Степени всех вершин четные
+// 2) Ориентированный граф - Степени входящие = степени исходящие для всех вершин
+// Путь ищется так же, но запускаемся из вершины с нечетной степенью
+// Путь существует, если есть 2 вершины с нечетной степенью
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>find_euler</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

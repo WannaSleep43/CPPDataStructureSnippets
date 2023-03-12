@@ -1,0 +1,27 @@
+<snippet>
+	<content><![CDATA[
+using ll = long long;
+using pll = pair<ll, ll>;
+vector<pll> Dijkstra(ll v) {
+    // with path recovery
+    vector<pll> dist(sz(adj), {INF, -1}); 
+    used.assign(sz(adj), 0);
+    set<vector<int>> d; d.insert({0, v, -1});
+    while (!d.empty()) {
+        vector<int> cur = *d.begin();
+        d.erase(d.begin());
+        if (used[cur[1]] || dist[cur[1]].first < cur[0]) continue;
+        used[cur[1]] = 1;
+        dist[cur[1]] = {cur[0], cur[2]};
+        for (auto& [u, w] : adj[cur[1]]) {
+            if (dist[u].first > cur[0] + w) d.insert({cur[0] + w, u, cur[1]});
+        }
+    }
+    return dist;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>dijkstra</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

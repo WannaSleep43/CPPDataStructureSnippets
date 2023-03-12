@@ -1,0 +1,21 @@
+<snippet>
+	<content><![CDATA[
+void SortHhoar(vi&ls, ll l, ll r) {
+    ll mid = ls[(l + r) / 2];
+    ll tl = l, tr = r;
+    do {
+        while (ls[tl] < mid) 
+            tl++;
+        while (ls[tr] > mid) 
+            tr--;
+        if (tl < tr) swap(ls[tl], ls[tr]);
+    } while (tl < tr);
+    if (l < tr) SortHhoar(ls, l, tr);
+    if (tl > r) SortHhoar(ls, tl, r);
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>sorthhoar</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

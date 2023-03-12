@@ -1,0 +1,38 @@
+<snippet>
+	<content><![CDATA[
+mt19937 rnd(chrono::high_resolution_clock::now().time_since_epoch().count())
+ 
+long double rnd2() {
+    return (rnd() % INF) / (double) INF;
+}
+ 
+void solve() {
+    cin >> n;
+    vector<pll> pos(n);
+    rep(i, n) pos[i] = {i, (ll) rnd() % n};
+    ll ans = calc(pos);
+ 
+    ld _q[3] = {0.95, 0.995, 0.9995};
+    while (1) {
+        ld EPS = 1e-15;
+        ld q = 0.9999, t = 1;
+        while (t > EPS) {
+            t *= q;
+            if (ans == 0) {
+                sort(all(pos));
+                each(i, pos) cout << i.second + 1 << ' ';
+                return;
+            }
+            ll ind = rnd() % n;
+            ll yn = rnd() % n;
+            ll val = recalc(pos, ind, pos[ind].first, yn, ans);
+            if (val < ans || rnd2() < exp((ans - val) / t)) pos[ind].second = yn, ans = val;
+        }
+    }
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>random_algo</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

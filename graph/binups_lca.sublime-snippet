@@ -1,0 +1,63 @@
+<snippet>
+	<content><![CDATA[
+const ll MAXN = 1e5 + 10, C = 22;
+ 
+vi adj[MAXN];
+ll tin[MAXN], tout[MAXN], up[MAXN][C];
+ 
+ll timer = 0;
+ 
+void dfs(ll v, ll p) {
+    tin[v] = ++timer;
+    up[v][0] = max(p, 0ll);
+    for (int i = 1; i < C; i++) up[v][i] = up[up[v][i - 1]][i - 1];
+ 
+    for (auto&u : adj[v]) {
+        if (u == p) continue;
+        dfs(u, v);
+    }
+    tout[v] = ++timer;
+}
+ 
+bool isla(ll a, ll b) {
+    return (tin[a] <= tin[b] && tout[a] >= tout[b]);
+}
+ 
+ll lca(ll a, ll b) {
+    if (isla(a, b)) return a;
+    if (isla(b, a)) return b;
+    for (int i = C - 1; i >= 0; i--) {
+        if (!isla(up[a][i], b)) a = up[a][i];
+    }
+    return up[a][0];
+}
+ 
+void solve() {
+    ll n, q; cin >> n >> q;
+ 
+    rep(i, n - 1) {
+        ll a; cin >> a;
+        adj[a].push_back(i + 1);
+    }
+    ll a1, a2; cin >> a1 >> a2;
+    ll x, y, z; cin >> x >> y >> z;
+    ll sum = 0, last = 0;
+ 
+    dfs(0, -1);
+    
+    rep(_, q) {
+        last = lca((a1 + last) % n, a2);
+        sum += last;
+        rep(i, 2) {
+            ll cur = (a1 * x + a2 * y + z) % n;
+            a1 = a2; a2 = cur;
+        }
+    }
+    cout << sum << '\n';
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>binups</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

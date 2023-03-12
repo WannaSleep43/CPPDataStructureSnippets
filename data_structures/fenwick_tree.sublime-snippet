@@ -1,0 +1,38 @@
+<snippet>
+	<content><![CDATA[
+struct Fenwick{
+    vi tree;
+    ll n;
+    Fenwick(ll k) {
+        n = k;
+        tree.resize(n);
+    }
+ 
+    Fenwick(ll k, vi&a) {
+        n = k;
+        tree.resize(n);
+        fi(n) inc(i, a[i]);
+    }
+ 
+    void inc(ll i, ll val) {
+        for (; i < n; i |= i + 1)
+            tree[i] += val;
+    }
+ 
+    ll sum(ll r) {
+        ll ans;
+        for (; r >= 0; r = (r & (r + 1)) - 1)
+            ans += tree[r];
+        return ans;
+    }
+ 
+    ll sum(ll l, ll r){
+        return sum(r) - sum(l - 1);
+    }
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>fenwick</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

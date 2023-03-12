@@ -1,0 +1,33 @@
+<snippet>
+	<content><![CDATA[
+struct DSU{
+    vi dsu, r;
+    DSU(ll n) {
+        dsu.resize(n);
+        r.resize(n);
+    }
+ 
+    ll goUp(ll a) {
+        if (dsu[a] != a)
+            dsu[a] = goUp(dsu[a]);
+        return a;
+    }
+ 
+    bool check(ll a, ll b) {
+        return goUp(a) == goUp(b);
+    }
+ 
+    void merge(ll a, ll b) {
+        ll x = goUp(a), y = goUp(b);
+        if (r[x] > r[y])
+            swap(x, y);
+        dsu[x] = y;
+        r[y] = max(r[x] + 1, r[y]);
+    }
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>DSU</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

@@ -1,0 +1,71 @@
+<snippet>
+	<content><![CDATA[
+using ld = long double;
+ 
+const ld EPS = 1e-9;
+ 
+ll sign(ll x) {
+    if (x < 0) return -1;
+    if (x > 0) return 1;
+    return 0;
+}
+ 
+ll sign(ld x) {
+    if (x < EPS) return -1;
+    if (x > EPS) return 1;
+    return 0;
+}
+ 
+ld sq(ld x) { return x * x; }
+ 
+#define Point Vector
+ 
+struct Vector {
+    ld x, y;
+ 
+    Vector() : x(0), y(0) {}
+    Vector(ld a, ld b) : x(a), y(b) {}
+ 
+    Point operator*(ld a) {
+        return Point(x * a, y * a);
+    }
+    Point operator+(Point&other) {
+        return Point(x + other.x, y + other.y);
+    }
+    Point operator-(Point&other) {
+        return Point(x - other.x, y - other.y);
+    }
+    ld operator* (Point&other) {
+        return x * other.x + y * other.y;
+    }
+    ld operator^ (Point& other) {
+        return x * other.y - y * other.x;
+    }
+ 
+    ld len() { return sqrt(sq(x) + sq(y)); }
+    ld len2() { return sq(x) + sq(y); }
+    Point norm() {
+        ld d = len();
+        assert(sign(d)); // for debug
+        return Point(x / d, y / d);
+    }
+ 
+    Point ort() {
+        return Point(-y, x);
+    }
+};
+ 
+ld getAngle(Point&a, Point&b) {
+    return atan2(a ^ b, a * b);
+}
+ 
+bool isOnSegment(Point&a, Point&b, Point&x) {
+    // bad for EPS
+    return sign((a - b).len() - (a - x).len() - (b - x).len()) == 0;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>base_geometry</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

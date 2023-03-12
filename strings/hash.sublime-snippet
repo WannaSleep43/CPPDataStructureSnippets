@@ -1,0 +1,47 @@
+<snippet>
+	<content><![CDATA[
+using ll = long long;
+struct Hash{
+    vector<ll> pref, suff, pq;
+    ll p = 1337, q = 1e9+7;
+ 
+    ll add(ll a, ll b) {
+        ll res = (a + b);
+        if (a + b >= q) res -= q;
+        return res;
+    }
+ 
+    ll sub(ll a, ll b) {
+        ll res = a - b;
+        if (res < 0) res += q;
+        return res;
+    }
+ 
+    ll mul(ll a, ll b) {
+        return (a * b) % q;
+    }
+ 
+    Hash(string&s, ll _p, ll _q) {
+        ll n = sz(s), p = _p, q = _q;
+        pref.assign(n + 1, 0), suff.assign(n + 1, 0), pq.assign(n + 1, 1);
+        for (int i = 0; i < n; i++) {
+            pq[i + 1] = mul(pq[i], p);
+            pref[i + 1] = add(mul(pref[i], p), s[i] - 'a' + 1);
+            suff[n - i - 1] = add(mul(suff[n - i], p), s[n - i - 1] - 'a' + 1);
+        }
+    }
+ 
+    ll get_pref(ll l, ll r) {
+        return sub(pref[r + 1], mul(pref[l], pq[r - l + 1]));
+    }
+ 
+    ll get_suff(ll l, ll r) {
+        return sub(suff[l], mul(suff[r + 1], pq[r - l + 1]));
+    }
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>hash</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

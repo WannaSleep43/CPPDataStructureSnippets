@@ -1,0 +1,45 @@
+<snippet>
+	<content><![CDATA[
+template<typename T>
+struct Modular {
+    T x; ll MOD = 1e9 + 7;
+    
+    Modular() {}
+    Modular(T a) { x = a; }
+ 
+    T binpow(T&a, T&n) {
+        if (n == 0) return 1;
+        T res = binpow((a * a) % MOD, n / 2);
+        if (n % 2) return (a * res) % MOD;
+        return res % MOD;
+    }
+ 
+    T inverse(T&a, T&b) {
+        return (a * binpow(b, MOD - 2)) % MOD;
+    }
+    
+    void operator=(const T& val) { x = val; }
+    void operator++() { x = (x + 1 >= MOD) ? x + 1 - MOD : x + 1; }
+    void operator--() { x = (x - 1 < 0) ? x - 1 + MOD : x - 1; }
+    void operator+=(Modular& other) { x = (x + other.x >= MOD) ? x + other.x - MOD : x + other.x; }
+    void operator-=(Modular& other) { x = (x - other.x < 0) ? x - other.x + MOD : x - other.x; }
+    void operator*=(Modular& other) { x = (x * other.x) % MOD; }
+    void operator/=(Modular& other) { x = inverse(x, other.x); }
+    
+    Modular operator*(Modular&other) { return Modular((x * other.x) % MOD); }
+    Modular operator/(Modular&other) { return Modular(inverse(x, other.x)); }
+    
+    T operator*(T val) { return (x * val) % MOD; }
+    T operator/(T val) { return inverse(x, val); }
+};
+ 
+using Mint = Modular<ll>;
+ 
+istream& operator>>(istream&io, Mint &m) { return io >> m.x; }
+ostream& operator<<(ostream&os, Mint m) { return os << m.x; }
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>Modular</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

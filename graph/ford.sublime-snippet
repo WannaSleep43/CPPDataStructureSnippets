@@ -1,0 +1,20 @@
+<snippet>
+	<content><![CDATA[
+vector<int> d (n, INF);
+d[v] = 0;
+for (;;) {
+    bool any = false;
+    for (int j=0; j<m; ++j)
+        if (d[e[j].a] < INF)
+            if (d[e[j].b] > d[e[j].a] + e[j].cost) {
+                d[e[j].b] = d[e[j].a] + e[j].cost;
+                any = true;
+            }
+    if (!any)  break;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>ford</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

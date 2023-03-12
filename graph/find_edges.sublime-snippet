@@ -1,0 +1,22 @@
+<snippet>
+	<content><![CDATA[
+// ПОИСК МОСТОВ
+void dfs(ll v, ll dep, ll p) {
+    used[v] = 1;
+    dp[v] = dep;
+    for (auto&u : adj[v]) {
+        if (used[u]) {
+            if (u != p) dp[v] = min(dp[v], dp[u]);
+            continue;
+        }
+        dfs(u, dep + 1, v);
+        dp[v] = min(dp[v], dp[u]);
+        if (dp[u] <= dep) new_adj[v].push_back(u), new_adj[u].push_back(v);
+    }
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>find_edges</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

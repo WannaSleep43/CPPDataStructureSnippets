@@ -1,0 +1,42 @@
+<snippet>
+	<content><![CDATA[
+void dfs(ll v, ll p) {
+    used[v] = 1;
+    tin[v] = fup[v] = timer++;
+    ll cnt = 0;
+    for (auto&u : adj[v]) {
+        if (used[u]) {
+            fup[v] = min(fup[v], tin[u]);
+        } else {
+            dfs(u, v);
+            fup[v] = min(fup[v], fup[u]);
+            if (p != -1 && fup[u] >= tin[v]) iscp[v] = 1;
+            cnt++;
+        }
+    }
+    if (p == -1 && cnt > 1) iscp[v] = 1;
+}
+ 
+void solve() {
+    ll n, m; cin >> n >> m;
+    adj.assign(n, {}), used.assign(n, 0), new_adj.assign(n, {});
+    tin.assign(n, 0), fup.assign(n, 0); iscp.assign(n, 0);
+    rep(i, m) {
+        ll a, b; cin >> a >> b;
+        a--, b--;
+        adj[a].push_back(b);
+        adj[b].push_back(a);
+    }
+    rep(i, n) {
+        if (!used[i]) dfs(i, -1);
+    }
+    rep(i, n) if (iscp[i]) cutpoints.push_back(i);
+    cout << sz(cutpoints) << '\n';
+    each(i, cutpoints) cout << i + 1 << " ";
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>find_articulation_point</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

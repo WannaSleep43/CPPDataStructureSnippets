@@ -1,0 +1,82 @@
+<snippet>
+	<content><![CDATA[
+struct Treap {
+	struct Node {
+		Node* l = nullptr, * r = nullptr;
+		int x, y;
+		Node(int _x) {
+			x = _x;
+			y = rand();
+		}
+	};
+	typedef pair<Node*, Node*> Trees;
+	Trees split(Node* a, int x) {
+		if (a == nullptr) {
+			return { nullptr, nullptr };
+		}
+		if (a->x < x) {
+			Trees p = split(a->r, x);
+			a->r = p.first;
+			return { a, p.second };
+		}
+		else {
+			Trees p = split(a->l, x);
+			a->l = p.second;
+			return { p.first, a };
+		}
+	}
+	Node* merge(Node* l, Node* r) {
+		if (l == nullptr) {
+			return r;
+		}
+		if (r == nullptr) {
+			return l;
+		}
+		if (l->y > r->y) {
+			l->r = merge(l->r, r);
+			return l;
+		}
+		else {
+			r->l = merge(l, r->l);
+			return r;
+		}
+	}
+	Node* insert(Node* a, Node* x) {
+		if (!x)return a;
+		if (!a)return x;
+		if (x->y > a->y) {
+			Trees p = split(a, x->x);
+			x->l = p.first;
+			x->r = p.second;
+			return x;
+		}
+		if (x->x < a->x) {
+			a->l = insert(a->l, x);
+		}
+		else {
+			a->r = insert(a->r, x);
+		}
+		return a;
+	}
+	Node* add(Node* a, int x) {
+		Node* b = new Node(x);
+		return insert(a, b);
+	}
+	int find(Node* a) {
+		if (a == nullptr)return -1;
+		if (a->l == nullptr)return a->x;
+		return find(a->l);
+	}
+	int next(Node*& a, int x) {
+		Trees p = split(a, x);
+		int ans = find(p.second);
+		a = merge(p.first, p.second);
+		return ans;
+	}
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>treap</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

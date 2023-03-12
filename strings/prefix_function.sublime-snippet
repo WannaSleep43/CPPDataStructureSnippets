@@ -1,0 +1,18 @@
+<snippet>
+	<content><![CDATA[
+vector<int> prefix(string&s) {
+    int n = s.size();
+    vector<int> pref(n, 0);
+    for (int i = 1; i < n; i++) {
+        int j = pref[i - 1];
+        while (j > 0 && s[j] != s[i]) j = pref[j - 1];
+        if (s[j] == s[i]) pref[i] = j + 1;
+    }
+    return pref;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>prefix_function</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
