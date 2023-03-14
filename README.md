@@ -7,21 +7,6 @@ List of snippets that are in this extension:
 <table>
 <thead>
 <tr>
-<th>foo</th>
-<th>bar</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>baz</td>
-<td>bim</td>
-</tr>
-</tbody>
-</table>
-
-<table>
-<thead>
-<tr>
 <th>File name</th>
 <th>Prompt</th>
 </tr>
