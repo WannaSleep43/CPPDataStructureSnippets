@@ -1,6 +1,6 @@
 <snippet>
 	<content><![CDATA[
-**File name**									**Prompt**      	**When to use**
+**File name**									**Prompt**
 hash.sublime-snippet							hash  				
 leaf_structure.sublime-snippet					leaf_structure
 prefix_function.sublime-snippet					prefix_function
